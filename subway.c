@@ -36,7 +36,7 @@ int x2en(int z, int n) {
     static int (*const recurse[2])(int, int) = { x2en, add };
     static int (*const toggle[2])(int) = { doub, id };
     n = sub(n, 1);
-    int b = neg(((byte*) &(&n)[1])[-2]);
+    int b = neg(((byte*) &n)[1]);
     return recurse[b](toggle[b](z), add(n, b));
 }
 
@@ -50,7 +50,7 @@ int bit(int z, int e, int m, int n) {
     // given endianness e, returns the nth bit of the mth byte of z
     static int (*const toggle[2])(int) = { id, neg };
     int b = (byte) x2en(((byte*) &(&z)[e])[toggle[e](add(m, e))], sub(7, n));
-    return neg(((byte*) &(&b)[1])[-2]);
+    return neg(((byte*) &b)[1]);
 }
 
 int lt0(int z) { 
