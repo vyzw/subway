@@ -26,18 +26,17 @@ int id(int z) {
     return z;
 }
 
-int doub(int z) {
-    // returns twice z
-    return add(z, z);
+int id2(int x, int y) {
+    // returns x
+    return x;
 }
 
 int x2en(int z, int n) {
     // returns the product between z and the nth power of 2, given that 0 <= n <= 256
-    static int (*const recurse[2])(int, int) = { x2en, add };
-    static int (*const toggle[2])(int) = { doub, id };
+    static int (*const recurse[3])(int, int) = { id2, x2en, add };
     n = sub(n, 1);
-    int b = neg(((byte*) &n)[1]);
-    return recurse[b](toggle[b](z), add(n, b));
+    int b = not(neg(((byte*) &n)[1]));
+    return recurse[b](recurse[add(b, b)](z, z), n);
 }
 
 int end() {
