@@ -35,14 +35,14 @@ int x2en(int z, int n) {
     // returns the product between z and the nth power of 2, given that 0 <= n <= 256
     static int (*const recurse[3])(int, int) = { id2, x2en, add };
     n = sub(n, 1);
-    int b = not(neg(((byte*) &n)[1]));
+    int b = add(((byte*) &n)[1], 1);
     return recurse[b](recurse[add(b, b)](z, z), n);
 }
 
 int end() {
     // returns 0 if little-endian, 1 if big-endian
-    int one = 1;
-    return not(*((byte*) &one));
+    int i = 1;
+    return not(*((byte*) &i));
 }
 
 int bit(int z, int e, int m, int n) {
@@ -77,6 +77,18 @@ int eq0(int z) {
 int eq(int x, int y) {
     // returns 1 if x == y, otherwise 0
     return eq0(sub(x, y));
+}
+
+int tern(int b, int x, int y) {
+    // returns x if b, otherwise y
+    int toggle[2] = { y, x };
+    return toggle[b];
+}
+
+int lt(int x, int y) {
+    // returns 1 if x < y, otherwise 0
+    int b = lt0(x);
+    return tern(eq(b, lt0(y)), lt0(sub(x, y)), b);
 }
 
 int main(void) {
